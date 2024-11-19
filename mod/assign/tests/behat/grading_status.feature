@@ -170,3 +170,27 @@ Feature: View the grading status of an assignment
     And I am on the "Test assignment name" "assign activity" page logged in as student1
     And I should see "Graded" in the "Grading status" "table_row"
     And I should see "Even better job! Really."
+
+  @javascript
+  Scenario: Changing filters while viewing submission to load the first user
+    Given the following "activity" exists:
+      | activity                            | assign                  |
+      | course                              | C1                      |
+      | name                                | Test assignment name    |
+      | intro                               | Submit your online text |
+      | submissiondrafts                    | 0                       |
+      | assignfeedback_comments_enabled     | 1                       |
+      | markingworkflow                     | 0                       |
+      | assignsubmission_onlinetext_enabled | 1                       |
+    And the following "mod_assign > submissions" exist:
+      | assign                | user      | onlinetext                        |
+      | Test assignment name  | student1  | I'm the student first submission  |
+    When I am on the "Test assignment name" "assign activity" page logged in as teacher1
+    And I navigate to "Submissions" in current page administration
+    And I click on "Grade actions" "actionmenu" in the "Student 1" "table_row"
+    And I choose "Grade" in the open action menu
+    And I click on "Change filters" "link"
+    And I set the field "Filter" to "notsubmitted"
+    Then I should see "student2"
+    And I set the field "Filter" to "requiregrading"
+    Then I should see "student1"
