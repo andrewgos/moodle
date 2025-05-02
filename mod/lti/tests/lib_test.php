@@ -375,7 +375,7 @@ final class lib_test extends \advanced_testcase {
             'timecreated' => $time,
             'timemodified' => $time,
             'state' => \core_ltix\constants::LTI_TOOL_STATE_CONFIGURED,
-            'coursevisible' => \core_ltix\constants::LTI_COURSEVISIBLE_ACTIVITYCHOOSER
+            'coursevisible' => \core_ltix\constants::LTI_COURSEVISIBLE_PRECONFIGURED
         ]);
         $sitetoolrecordnonchooserid = $ltigenerator->create_tool_types([
             'name' => 'Site level tool which is NOT available in the course activity chooser',
@@ -397,7 +397,7 @@ final class lib_test extends \advanced_testcase {
             'timecreated' => $time,
             'timemodified' => $time,
             'state' => \core_ltix\constants::LTI_TOOL_STATE_CONFIGURED,
-            'coursevisible' => \core_ltix\constants::LTI_COURSEVISIBLE_ACTIVITYCHOOSER
+            'coursevisible' => \core_ltix\constants::LTI_COURSEVISIBLE_PRECONFIGURED
         ]);
         $course2toolrecordid = $ltigenerator->create_tool_types([
             'name' => 'Course created tool which is available in the activity chooser',
@@ -408,29 +408,15 @@ final class lib_test extends \advanced_testcase {
             'timecreated' => $time,
             'timemodified' => $time,
             'state' => \core_ltix\constants::LTI_TOOL_STATE_CONFIGURED,
-            'coursevisible' => \core_ltix\constants::LTI_COURSEVISIBLE_ACTIVITYCHOOSER
+            'coursevisible' => \core_ltix\constants::LTI_COURSEVISIBLE_PRECONFIGURED
         ]);
 
-        $ltigenerator->create_placement(
-            $sitetoolrecordid,
-            $DB->get_field('lti_placement_type', 'id', ['type' => 'mod_lti:activityplacement']),
-            ['default_usage' => 'enabled']
-        );
-        $ltigenerator->create_placement(
-            $sitetoolrecordnonchooserid,
-            $DB->get_field('lti_placement_type', 'id', ['type' => 'mod_lti:activityplacement']),
-            ['default_usage' => 'disabled']
-        );
-        $ltigenerator->create_placement(
-            $course1toolrecordid,
-            $DB->get_field('lti_placement_type', 'id', ['type' => 'mod_lti:activityplacement']),
-            ['default_usage' => 'enabled']
-        );
-        $ltigenerator->create_placement(
-            $course2toolrecordid,
-            $DB->get_field('lti_placement_type', 'id', ['type' => 'mod_lti:activityplacement']),
-            ['default_usage' => 'enabled']
-        );
+        $placementtypeid = $DB->get_field('lti_placement_type', 'id', ['type' => 'mod_lti:activityplacement']);
+
+        $ltigenerator->create_placement($sitetoolrecordid, $placementtypeid, ['default_usage' => 'enabled']);
+        $ltigenerator->create_placement($sitetoolrecordnonchooserid, $placementtypeid, ['default_usage' => 'disabled']);
+        $ltigenerator->create_placement($course1toolrecordid, $placementtypeid, ['default_usage' => 'enabled']);
+        $ltigenerator->create_placement($course2toolrecordid, $placementtypeid, ['default_usage' => 'enabled']);
 
         $defaultmodulecontentitem = new \core_course\local\entity\content_item(
             '1',

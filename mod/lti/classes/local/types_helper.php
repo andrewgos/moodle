@@ -38,8 +38,8 @@ class types_helper {
      *        [LTI_COURSEVISIBLE_PRECONFIGURED, LTI_COURSEVISIBLE_ACTIVITYCHOOSER] if omitted.
      * @return \stdClass[] the array of tool type objects.
      *
-     * DO NOT USE: This method is retained for backward compatibility on legacy tools and does not fully follow the latest architecture.
-     *             Please use core_ltix\helper::get_tools_with_enabled_placement_in_course() for new implementations.
+     * DO NOT USE: This method is retained for backward compatibility on legacy tools and does not fully follow the latest
+     * architecture. Please use core_ltix\helper::get_tools_with_enabled_placement_in_course() for new implementations.
      */
     public static function get_lti_types_by_course(int $courseid, int $userid, array $coursevisible = []): array {
         global $DB, $SITE;
@@ -49,7 +49,10 @@ class types_helper {
         }
 
         if (empty($coursevisible)) {
-            $coursevisible = [\core_ltix\constants::LTI_COURSEVISIBLE_PRECONFIGURED, \core_ltix\constants::LTI_COURSEVISIBLE_ACTIVITYCHOOSER];
+            $coursevisible = [
+                \core_ltix\constants::LTI_COURSEVISIBLE_PRECONFIGURED,
+                \core_ltix\constants::LTI_COURSEVISIBLE_ACTIVITYCHOOSER
+            ];
         }
         [$coursevisiblesql, $coursevisparams] = $DB->get_in_or_equal($coursevisible, SQL_PARAMS_NAMED, 'coursevisible');
         [$coursevisiblesql1, $coursevisparams1] = $DB->get_in_or_equal($coursevisible, SQL_PARAMS_NAMED, 'coursevisible');

@@ -18,7 +18,6 @@ namespace core_ltix;
 
 defined('MOODLE_INTERNAL') || die();
 
-use context_course;
 use core_ltix\local\ltiopenid\registration_helper;
 use core_ltix\local\ltiopenid\jwks_helper;
 use core_ltix\local\ltiservice\service_helper;
@@ -30,7 +29,6 @@ use core_useragent;
 use curl;
 use DateTime;
 use DateTimeZone;
-use dml_exception;
 use DOMDocument;
 use DOMXPath;
 use moodle_exception;
@@ -1078,7 +1076,7 @@ class helper {
      * @param string $placementtype the placement type string
      * @param int $courseid the course id
      * @return array the list of placements
-     * @throws coding_exception|dml_exception if the placement type is invalid.
+     * @throws coding_exception if the placement type is invalid.
      */
     public static function get_tools_with_enabled_placement_in_course(string $placementtype, int $courseid): array {
         global $DB, $SITE;
@@ -1087,7 +1085,7 @@ class helper {
             throw new coding_exception("Invalid placement type. Should be of the form 'component:placementtypename'.");
         }
 
-        $coursecontext = context_course::instance($courseid);
+        $coursecontext =  \core\context\course::instance($courseid);
         $coursecategory = $DB->get_field('course', 'category', ['id' => $courseid]);
 
         [$visiblesql, $visibleparams] = $DB->get_in_or_equal(

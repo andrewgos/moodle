@@ -890,7 +890,7 @@ function lti_get_configured_types($courseid, $sectionreturn = 0) {
     global $OUTPUT, $USER;
     $types = [];
 
-    $context = \context_course::instance($courseid);
+    $context = \core\context\course::instance($courseid);
 
     if (!has_capability('mod/lti:addpreconfiguredinstance', $context, $USER->id)) {
         return [];

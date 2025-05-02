@@ -1110,8 +1110,13 @@ final class helper_test extends lti_testcase {
     /**
      * Test getting a list of tools with an enabled placement in the course context.
      *
-     * @dataProvider get_placement_overrides_provider
+     * @param int $toolcoursevisible
+     * @param int $toolstate
+     * @param string $placementdefault
+     * @param bool $placementoverride
+     * @param int $expectedcount
      * @return void
+     * @dataProvider get_placement_overrides_provider
      */
     public function test_get_tools_with_enabled_placement_in_course(
         $toolcoursevisible,
@@ -1119,7 +1124,7 @@ final class helper_test extends lti_testcase {
         $placementdefault,
         $placementoverride,
         $expectedcount,
-    ) {
+    ): void {
         $this->resetAfterTest();
 
         /** @var \core_ltix_generator $ltigenerator */
@@ -1179,56 +1184,56 @@ final class helper_test extends lti_testcase {
                 'toolstate' => constants::LTI_TOOL_STATE_CONFIGURED,
                 'placementdefault' => 'enabled',
                 'placementoverride' => null,
-                'expectedcount' => 1
+                'expectedcount' => 1,
             ],
             'Default YES, Override YES' => [
                 'toolcoursevisible' => constants::LTI_COURSEVISIBLE_PRECONFIGURED,
                 'toolstate' => constants::LTI_TOOL_STATE_CONFIGURED,
                 'placementdefault' => 'enabled',
                 'placementoverride' => placement_status::ENABLED,
-                'expectedcount' => 1
+                'expectedcount' => 1,
             ],
             'Default YES, Override NO' => [
                 'toolcoursevisible' => constants::LTI_COURSEVISIBLE_PRECONFIGURED,
                 'toolstate' => constants::LTI_TOOL_STATE_CONFIGURED,
                 'placementdefault' => 'enabled',
                 'placementoverride' => placement_status::DISABLED,
-                'expectedcount' => 0
+                'expectedcount' => 0,
             ],
             'Default NO, Override NULL' => [
                 'toolcoursevisible' => constants::LTI_COURSEVISIBLE_PRECONFIGURED,
                 'toolstate' => constants::LTI_TOOL_STATE_CONFIGURED,
                 'placementdefault' => 'disabled',
                 'placementoverride' => null,
-                'expectedcount' => 0
+                'expectedcount' => 0,
             ],
             'Default NO, Override YES' => [
                 'toolcoursevisible' => constants::LTI_COURSEVISIBLE_PRECONFIGURED,
                 'toolstate' => constants::LTI_TOOL_STATE_CONFIGURED,
                 'placementdefault' => 'disabled',
                 'placementoverride' => placement_status::ENABLED,
-                'expectedcount' => 1
+                'expectedcount' => 1,
             ],
             'Default NO, Override NO' => [
                 'toolcoursevisible' => constants::LTI_COURSEVISIBLE_PRECONFIGURED,
                 'toolstate' => constants::LTI_TOOL_STATE_CONFIGURED,
                 'placementdefault' => 'disabled',
                 'placementoverride' => placement_status::DISABLED,
-                'expectedcount' => 0
+                'expectedcount' => 0,
             ],
             'Tool is hidden' => [
                 'toolcoursevisible' => constants::LTI_COURSEVISIBLE_NO,
                 'toolstate' => constants::LTI_TOOL_STATE_CONFIGURED,
                 'placementdefault' => 'enabled',
                 'placementoverride' => null,
-                'expectedcount' => 0
+                'expectedcount' => 0,
             ],
             'Tool is pending' => [
                 'toolcoursevisible' => constants::LTI_COURSEVISIBLE_PRECONFIGURED,
                 'toolstate' => constants::LTI_TOOL_STATE_PENDING,
                 'placementdefault' => 'enabled',
                 'placementoverride' => null,
-                'expectedcount' => 0
+                'expectedcount' => 0,
             ],
         ];
     }
