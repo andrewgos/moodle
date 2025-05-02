@@ -152,7 +152,7 @@ final class placements_manager {
      * @param string $placementtype the placement type string.
      * @return bool true if valid, false otherwise.
      */
-    private static function is_valid_placement_type_string(string $placementtype): bool {
+    public static function is_valid_placement_type_string(string $placementtype): bool {
         return preg_match('/^[a-z]+_[a-z_0-9]+:[a-z_0-9]+$/', $placementtype);
     }
 

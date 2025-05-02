@@ -71,6 +71,8 @@ final class types_helper_test extends lti_testcase {
 
         $this->setUser($teacher);
 
+
+
         // Create the following tool types for testing:
         // - Site tool configured as "Do not show" (LTI_COURSEVISIBLE_NO).
         // - Site tool configured as "Show as a preconfigured tool only" (LTI_COURSEVISIBLE_PRECONFIGURED).
@@ -80,36 +82,60 @@ final class types_helper_test extends lti_testcase {
 
         /** @var \mod_lti_generator $ltigenerator */
         $ltigenerator = $this->getDataGenerator()->get_plugin_generator('mod_lti');
-        $ltigenerator->create_tool_types([
+        $tool1id = $ltigenerator->create_tool_types([
             'name' => 'site tool do not show',
             'baseurl' => 'http://example.com/tool/1',
             'coursevisible' => \core_ltix\constants::LTI_COURSEVISIBLE_NO,
             'state' => \core_ltix\constants::LTI_TOOL_STATE_CONFIGURED
         ]);
-        $ltigenerator->create_tool_types([
+        $tool2id = $ltigenerator->create_tool_types([
             'name' => 'site tool preconfigured only',
             'baseurl' => 'http://example.com/tool/2',
             'coursevisible' => \core_ltix\constants::LTI_COURSEVISIBLE_PRECONFIGURED,
             'state' => \core_ltix\constants::LTI_TOOL_STATE_CONFIGURED
         ]);
-        $ltigenerator->create_tool_types([
+        $tool3id = $ltigenerator->create_tool_types([
             'name' => 'site tool preconfigured and activity chooser',
             'baseurl' => 'http://example.com/tool/3',
             'coursevisible' => \core_ltix\constants::LTI_COURSEVISIBLE_ACTIVITYCHOOSER,
             'state' => \core_ltix\constants::LTI_TOOL_STATE_CONFIGURED
         ]);
-        $ltigenerator->create_course_tool_types([
+        $tool4id = $ltigenerator->create_course_tool_types([
             'name' => 'course tool preconfigured and activity chooser',
             'baseurl' => 'http://example.com/tool/4',
             'course' => $course->id
         ]);
-        $ltigenerator->create_tool_types([
+        $tool5id = $ltigenerator->create_tool_types([
             'name' => 'site tool preconfigured and activity chooser, restricted to category 2',
             'baseurl' => 'http://example.com/tool/5',
             'coursevisible' => \core_ltix\constants::LTI_COURSEVISIBLE_ACTIVITYCHOOSER,
             'state' => \core_ltix\constants::LTI_TOOL_STATE_CONFIGURED,
             'lti_coursecategories' => $coursecat2->id
         ]);
+        $tool6id = $ltigenerator->create_tool_types([
+            'name' => 'site tool preconfigured and activity chooser, on another placement types',
+            'baseurl' => 'http://example.com/tool/6',
+            'coursevisible' => \core_ltix\constants::LTI_COURSEVISIBLE_ACTIVITYCHOOSER,
+            'state' => \core_ltix\constants::LTI_TOOL_STATE_CONFIGURED,
+            'lti_coursecategories' => $coursecat2->id
+        ]);
+        $ltigenerator->create_tool_types([
+            'name' => 'site tool preconfigured and activity chooser, without any d',
+            'baseurl' => 'http://example.com/tool/7',
+            'coursevisible' => \core_ltix\constants::LTI_COURSEVISIBLE_ACTIVITYCHOOSER,
+            'state' => \core_ltix\constants::LTI_TOOL_STATE_CONFIGURED,
+            'lti_coursecategories' => $coursecat2->id
+        ]);
+
+        $placementtypeid = $DB->get_field('lti_placement_type', 'id', ['type' => 'mod_lti:activityplacement']);
+        $otherplacementtype = $ltigenerator->create_placement_type('core_ltix', 'other:placementtype');
+
+        $ltigenerator->create_placement($tool1id, $placementtypeid);
+        $ltigenerator->create_placement($tool2id, $placementtypeid);
+        $ltigenerator->create_placement($tool3id, $placementtypeid);
+        $ltigenerator->create_placement($tool4id, $placementtypeid);
+        $ltigenerator->create_placement($tool5id, $placementtypeid);
+        $ltigenerator->create_placement($tool6id, $otherplacementtype->id);
 
         // Request using the default 'coursevisible' param will include all tools except the one configured as "Do not show" and
         // the tool restricted to category 2.
