@@ -20,7 +20,6 @@ namespace customfield_number;
 
 use core\context\system;
 use core\context;
-use html_writer;
 use MoodleQuickForm;
 
 /**
@@ -76,9 +75,9 @@ class field_controller  extends \core_customfield\field_controller {
         $mform->setType('configdata[decimalplaces]', PARAM_INT);
 
         // Display format settings.
-        // TODO: Change this after MDL-82996 fixed.
-        $randelname = 'str_display_format';
-        $mform->addGroup([], $randelname, html_writer::tag('h4', get_string('headerdisplaysettings', 'customfield_number')));
+        $mform->addElement('header', 'headerdisplaysettings', get_string('headerdisplaysettings', 'customfield_number'));
+        $mform->hideIf('headerdisplaysettings', 'configdata[fieldtype]', 'ne', '');
+        $mform->setExpanded('headerdisplaysettings');
 
         // Display template.
         $mform->addElement('text', 'configdata[display]', get_string('display', 'customfield_number'),
