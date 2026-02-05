@@ -3,6 +3,9 @@
 //
 
 // Prefix for all CSS variables
+
+@use "@moodlehq/design-system/tokens/scss" as *;
+
 $prefix: bs- !default;
 
 // Colors
@@ -18,7 +21,7 @@ $gray-800: #343a40 !default;
 $gray-900: #1d2125 !default;
 $black:    #000 !default;
 
-$blue:    #0f6cbf !default;
+$blue:    $mds-color-green-400 !default;
 $indigo:  #6610f2 !default;
 $purple:  #613d7c !default;
 $pink:    #db1a74 !default;

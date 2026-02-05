@@ -127,6 +127,7 @@ module.exports = grunt => {
             'public/theme/classic/style/moodle.css',
             'jsdoc/styles/*.css',
             'public/admin/tool/componentlibrary/hugo/dist/css/docs.css',
+            'public/theme/boost/scss/@moodlehq/design-system',
         ].concat(thirdPartyPaths).concat(localStylelintIgnorePaths);
         grunt.file.write('.stylelintignore', stylelintIgnores.join('\n') + '\n');
 
